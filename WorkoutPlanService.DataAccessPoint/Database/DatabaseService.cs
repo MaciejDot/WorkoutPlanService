@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkoutPlanService.DataAccessPoint.DatetimeService;
 using WorkoutPlanService.DataAccessPoint.DTO;
 using WorkoutPlanService.DataAccessPoint.GuidService;
 
@@ -15,21 +16,38 @@ namespace WorkoutPlanService.DataAccessPoint.Database
     {
         private readonly SqlConnection _sqlConnection;
         private readonly IGuidProvider _guidProvider;
+        public readonly IDateTimeService _dateTimeService;
 
-        public DatabaseService(SqlConnection sqlConnection, IGuidProvider guidProvider)
+        public DatabaseService(SqlConnection sqlConnection, IGuidProvider guidProvider, IDateTimeService dateTimeService)
         {
             _sqlConnection = sqlConnection;
             _guidProvider = guidProvider;
+            _dateTimeService = dateTimeService;
         }
 
-        public Task UpdateExercise(ExercisePersistanceDTO exercisePersistanceDTO) 
+        public async Task AddExercise(ExercisePersistanceDTO exercisePersistanceDTO) 
         {
-            return _sqlConnection.ExecuteAsync("[Workout].[sp_Exercise_Update]", exercisePersistanceDTO, commandType: CommandType.StoredProcedure);
+            _sqlConnection.Open();
+            await _sqlConnection.ExecuteAsync("[Workout].[sp_Exercise_Add]", new
+            {
+                Name = exercisePersistanceDTO.Name,
+                ExerciseId = exercisePersistanceDTO.Id,
+                IsActive = true,
+                Created = _dateTimeService.GetCurrentDate()
+            }, commandType: CommandType.StoredProcedure);
+            _sqlConnection.Close();
         }
 
-        public Task AddExercise(ExercisePersistanceDTO exercisePersistanceDTO) 
+        public Task DeleteExercise(ExercisePersistanceDTO exercisePersistanceDTO) 
         {
-            return _sqlConnection.ExecuteAsync("[Workout].[sp_Exercise_Add]", exercisePersistanceDTO, commandType: CommandType.StoredProcedure);
+            _sqlConnection.Open();
+            return _sqlConnection.ExecuteAsync("[Workout].[sp_Exercise_Add]", new
+            {
+                Name = exercisePersistanceDTO.Name,
+                ExerciseId = exercisePersistanceDTO.Id,
+                IsActive = false,
+                Created = _dateTimeService.GetCurrentDate()
+            }, commandType: CommandType.StoredProcedure);
         }
 
         public Task<UserPersistanceDTO> GetUser(string username)
@@ -60,23 +78,32 @@ namespace WorkoutPlanService.DataAccessPoint.Database
                 new
                 {
                     Id = _guidProvider.GetGuid(),
-                    userPersistanceDTO.Name
+                    userPersistanceDTO.Name,
+                    Created = _dateTimeService.GetCurrentDate()
                 }
                 ,
                 commandType: CommandType.StoredProcedure
                 );
         }
 
-        public async Task UpdateWorkoutPlan(string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
+        public async Task UpdateWorkoutPlan(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
         {
-            var workouPlanVersionId = _guidProvider.GetGuid();
-            await UpdateWorkout(workouPlanVersionId, username, workoutPlanPersistanceDTO);
-            await SaveExercises(workouPlanVersionId, workoutPlanPersistanceDTO.Exercises);
+            if (oldWorkoutName != workoutPlanPersistanceDTO.Name)
+            {
+                await DeleteWorkoutPlan(username, oldWorkoutName, _dateTimeService.GetCurrentDate());
+            }
+            await AddWorkoutPlan(username, workoutPlanPersistanceDTO);
         }
 
         public Task DeleteWorkoutPlan(string username, string workoutName, DateTime deactivationDate)
         {
-            return _sqlConnection.ExecuteAsync("[Workout].[sp_WorkoutPlan_Delete]", new { Username = username, WorkoutName = workoutName, DeactivationDate = deactivationDate }, commandType: CommandType.StoredProcedure);
+            return _sqlConnection.ExecuteAsync("[Workout].[sp_WorkoutPlan_Delete]", new 
+            { 
+              Username = username, 
+              WorkoutName = workoutName, 
+              Created = deactivationDate,
+              WorkouPlanVersionId= _guidProvider.GetGuid()
+            }, commandType: CommandType.StoredProcedure);
         }
 
         public async Task AddWorkoutPlan(string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
@@ -84,20 +111,6 @@ namespace WorkoutPlanService.DataAccessPoint.Database
             var workouPlanVersionId = _guidProvider.GetGuid();
             await SaveWorkout(workouPlanVersionId, username, workoutPlanPersistanceDTO);
             await SaveExercises(workouPlanVersionId, workoutPlanPersistanceDTO.Exercises);
-        }
-
-        private Task UpdateWorkout(Guid workouPlanVersionId, string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
-        {
-            return _sqlConnection.ExecuteAsync("[Workout].[sp_WorkoutPlan_Update]", new
-            {
-                workoutPlanPersistanceDTO.IsPublic,
-                workoutPlanPersistanceDTO.Created,
-                workoutPlanPersistanceDTO.Description,
-                Username = username,
-                WorkoutName = workoutPlanPersistanceDTO.Name,
-                WorkouPlanVersionId = workouPlanVersionId
-            },
-                commandType: CommandType.StoredProcedure);
         }
 
         private Task SaveWorkout(Guid workouPlanVersionId, string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
@@ -109,8 +122,8 @@ namespace WorkoutPlanService.DataAccessPoint.Database
                 workoutPlanPersistanceDTO.Created,
                 workoutPlanPersistanceDTO.Description,
                 Username = username,
-                WorkoutPlanId = _guidProvider.GetGuid(),
-                WorkouPlanVersionId = workouPlanVersionId
+                WorkouPlanVersionId = workouPlanVersionId,
+                IsActive = true,
             },
                 commandType: CommandType.StoredProcedure);
         }
@@ -121,7 +134,6 @@ namespace WorkoutPlanService.DataAccessPoint.Database
                 exercisePersistanceDTOs.Select(x => new
                 {
                     WorkoutPlanVersionId = workouPlanVersionId,
-                    ExerciseExecutionPlanId = _guidProvider.GetGuid(),
                     x.MaxAdditionalKgs,
                     x.MaxReps,
                     x.MinAdditionalKgs,

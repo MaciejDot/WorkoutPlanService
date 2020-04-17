@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [Security].[sp_User_Get]
 	@Name NVARCHAR(100)
 AS
-	SELECT 
+	SELECT DISTINCT
 		[Name]
 	FROM
 		[Security].[Users]

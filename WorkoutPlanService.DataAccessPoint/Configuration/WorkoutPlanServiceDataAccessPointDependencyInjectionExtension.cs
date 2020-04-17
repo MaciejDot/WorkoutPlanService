@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Text;
 using WorkoutPlanService.DataAccessPoint.Cache;
 using WorkoutPlanService.DataAccessPoint.Database;
+using WorkoutPlanService.DataAccessPoint.DatetimeService;
 using WorkoutPlanService.DataAccessPoint.GuidService;
 using WorkoutPlanService.DataAccessPoint.Hangfire;
 using WorkoutPlanService.DataAccessPoint.Jobs;
@@ -44,6 +45,7 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             services.AddScoped<IUpdateExercisesJob, UpdateExercisesJob>();
             services.AddScoped<IPopulateUserCacheJob, PopulateUserCacheJob>();
             services.AddScoped<IPopulateWorkoutPlans, PopulateWorkoutPlans>();
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddHangfire(configuration =>
             {
                 configuration
@@ -52,7 +54,7 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             services.AddCacheManagerConfiguration(configure =>
                 configure
                 .WithMicrosoftMemoryCacheHandle()
-                .WithExpiration(ExpirationMode.Absolute, TimeSpan.FromDays(7)));
+                .WithExpiration(ExpirationMode.Absolute, TimeSpan.FromMinutes(10)));
             services.AddCacheManager();
             return services;
 

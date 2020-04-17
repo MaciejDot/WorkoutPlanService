@@ -1,15 +1,21 @@
 ﻿CREATE TABLE [Workout].[WorkoutPlanVersion] (
     [Id]            UNIQUEIDENTIFIER NOT NULL,
-    [WorkoutPlanId] UNIQUEIDENTIFIER NOT NULL,
+    [UserId]        UNIQUEIDENTIFIER NOT NULL,
+    [IsActive]      BIT    NULL,
+    [Name]          NVARCHAR (400)   NOT NULL,
     [Created]       DATETIME2 (7)    NOT NULL,
     [IsPublic]      BIT              NOT NULL,
     [Description]   NVARCHAR (1000)  NULL,
     CONSTRAINT [PK_WorkoutPlanVersion] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_WorkoutPlanVersions_WorkoutPlan] FOREIGN KEY ([WorkoutPlanId]) REFERENCES [Workout].[WorkoutPlan] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_WorkoutPlanVersion_User] FOREIGN KEY ([UserId]) REFERENCES [Security].[Users] ([Id]) ON DELETE CASCADE
 );
 
 
 GO
+CREATE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_UserId_IsActive]
+    ON [Workout].[WorkoutPlanVersion]([UserId] ASC, [IsActive] ASC);
+
+GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_WorkoutPlanId_Created]
-    ON [Workout].[WorkoutPlanVersion]([WorkoutPlanId] ASC, [Created] ASC);
+    ON [Workout].[WorkoutPlanVersion]([Name] ASC, [Created] ASC);
 

@@ -7,11 +7,11 @@ namespace WorkoutPlanService.DataAccessPoint.Database
 {
     public interface IDatabaseService
     {
-        Task UpdateExercise(ExercisePersistanceDTO exercisePersistanceDTO);
+        Task DeleteExercise(ExercisePersistanceDTO exercisePersistanceDTO);
         Task AddExercise(ExercisePersistanceDTO exercisePersistanceDTO);
         Task<IEnumerable<WorkoutPlanPersistanceDTO>> GetWoroutPlansAsync(string username);
         Task AddWorkoutPlan(string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO);
-        Task UpdateWorkoutPlan(string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO);
+        Task UpdateWorkoutPlan(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO);
         Task DeleteWorkoutPlan(string username, string workoutName, DateTime deactivationDate);
         public Task<UserPersistanceDTO> GetUser(string username);
         public Task<IEnumerable<UserPersistanceDTO>> GetUsers();

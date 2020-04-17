@@ -49,16 +49,16 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             _backgroundJobClientService.Enqueue<IAddWorkoutPlanJob>(x => x.Run(username, workoutPlan));
         }
 
-        public async Task UpdateWorkoutPlanAsync(string username, WorkoutPlanPersistanceDTO workoutPlan)
+        public async Task UpdateWorkoutPlanAsync(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan)
         {
 
             await ValidateExercisesAsync(workoutPlan);
-            if (!await UserWorkoutPlanExistsAsync(workoutPlan.Name, username))
+            if (!await UserWorkoutPlanExistsAsync(oldWorkoutName, username))
             {
                 throw new Exception("there is no such workout");
             };
-            UpdateWorkoutInCache(username, workoutPlan);
-            _backgroundJobClientService.Enqueue<IUpdateWorkoutPlanJob>(x => x.Run(username, workoutPlan));
+            UpdateWorkoutInCache(username, oldWorkoutName, workoutPlan);
+            _backgroundJobClientService.Enqueue<IUpdateWorkoutPlanJob>(x => x.Run(username, oldWorkoutName, workoutPlan));
         }
 
         public async Task DeleteWorkoutPlanAsync(string username, string workoutName, DateTime deactivationDate)
@@ -85,9 +85,9 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             _workoutPlanCacheService.PutWorkoutPlans(username, workouts.Where(x => x.Name != workoutName));
         }
 
-        private void UpdateWorkoutInCache(string username, WorkoutPlanPersistanceDTO workoutPlan) {
+        private void UpdateWorkoutInCache(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan) {
             var workouts = _workoutPlanCacheService.GetUserWorkouts(username).Value;
-            var saveWorkouts = workouts.Where(x => x.Name != workoutPlan.Name)
+            var saveWorkouts = workouts.Where(x => x.Name != oldWorkoutName)
                 .ToList();
             saveWorkouts.Add(workoutPlan);
             _workoutPlanCacheService.PutWorkoutPlans(username, saveWorkouts);

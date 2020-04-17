@@ -24,9 +24,9 @@ namespace WorkoutPlanService.Domain.CommandHandler
 
         public async Task<Unit> Handle(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken)
         {
-            await _workoutPlanRepository.UpdateWorkoutPlanAsync(command.Username, new WorkoutPlanPersistanceDTO
+            await _workoutPlanRepository.UpdateWorkoutPlanAsync(command.Username, command.OldName, new WorkoutPlanPersistanceDTO
             {
-                Name = command.Name,
+                Name = command.NewName,
                 Created = _dateTimeHelper.GetCurrentDateTime(),
                 Description = command.Description,
                 IsPublic = command.IsPublic,

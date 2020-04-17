@@ -1,9 +1,11 @@
 ﻿CREATE PROCEDURE [Workout].[sp_Exercise_Add]
-	@Id INT,
-	@Name NVARCHAR(400)
+	@ExerciseId INT,
+	@Name NVARCHAR(400),
+	@Created DATETIME2(7),
+	@IsActive BIT
 AS
 	INSERT INTO [Workout].[Exercise]
-		([Id], [Name])
+		([ExerciseId], [Name], [Created], [IsActive])
 	VALUES
-		(@Id, @Name)
+		(@ExerciseId, @Name, @Created, @IsActive)
 RETURN 0

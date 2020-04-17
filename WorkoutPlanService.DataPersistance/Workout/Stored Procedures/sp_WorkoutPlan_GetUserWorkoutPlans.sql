@@ -4,9 +4,9 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	SELECT
-		wp.[Name],
+		wpv.[Name],
 		wpv.[Description],
-		wp.[Created],
+		wpv.[Created],
 		wpv.[IsPublic],
 		eep.[Id],
 		eep.[Series],
@@ -20,18 +20,16 @@ BEGIN
 		eep.[MinReps],
 		eep.[MaxReps]
 	FROM 
-		[Workout].[WorkoutPlan] wp 
+		[Workout].[WorkoutPlanVersion] wpv 
 		JOIN [Security].[Users] u 
-			ON wp.[UserId] = u.[Id]
+			ON wpv.[UserId] = u.[Id]
 			AND u.[Name] = @username
-		LEFT JOIN [Workout].[WorkoutPlanVersion] wpv 
-			ON wp.[Id] =wpv.[WorkoutPlanId]
 		LEFT JOIN [Workout].[ExerciseExecutionPlan] eep
 			ON eep.[WorkoutPlanVersionId] = wpv.[Id]
 		LEFT JOIN [Workout].[Exercise] e
 			ON e.[Id] = eep.[ExerciseId]
 	WHERE
-		wp.[DeactivationDate] IS NULL 
+		wpv.IsActive = 1
 		AND wpv.[Id] 
 			IN(
 				SELECT TOP(1) 
@@ -39,13 +37,12 @@ BEGIN
 				FROM 
 					[Workout].[WorkoutPlanVersion] wpv2
 				WHERE
-					wpv2.[WorkoutPlanId] = wp.[Id]
+					wpv2.[Name] = wpv.[Name]
 				ORDER BY
 					CREATED DESC
 			)
 	ORDER BY
 		u.[Id] ASC , 
-		wp.[Created] ASC, 
 		wpv.[Id] ASC , 
 		eep.[Order] ASC
 END

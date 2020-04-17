@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [Workout].[sp_WorkoutPlan_Add]
 
 	@Username NVARCHAR(100),
-	@WorkoutPlanId UNIQUEIDENTIFIER,
 	@WorkouPlanVersionId UNIQUEIDENTIFIER,
 	@WorkoutName NVARCHAR(400),
 	@Description NVARCHAR(1000),
 	@IsPublic BIT,
-	@Created DATETIME2(7)
+	@Created DATETIME2(7),
+	@IsActive BIT
 
 AS
 	DECLARE @UserId UNIQUEIDENTIFIER =
@@ -18,14 +18,9 @@ AS
 		WHERE
 			[Name] = @Username
 	)
-	INSERT INTO [Workout].[WorkoutPlan] 
-		([Id], [UserId], [DeactivationDate], [Name], [Created])
-	VALUES
-		(@WorkoutPlanId, @UserId, NULL, @WorkoutName, @Created)
-
 	INSERT INTO [Workout].[WorkoutPlanVersion]
-		([Id], [WorkoutPlanId], [Created], [Description], [IsPublic])
+		([Id], [Name], [IsActive], [UserId], [Created], [Description], [IsPublic])
 	VALUES
-		(@WorkouPlanVersionId, @WorkoutPlanId, @Created, @Description, @IsPublic)
+		(@WorkouPlanVersionId, @WorkoutName, @IsActive, @UserId, @Created, @Description, @IsPublic)
 
 RETURN 0

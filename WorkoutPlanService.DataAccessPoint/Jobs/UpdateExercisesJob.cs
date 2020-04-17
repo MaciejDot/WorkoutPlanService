@@ -52,23 +52,29 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
                 if (!exercises.OrderBy(x => x.Id).SequenceEqual(databaseExercises.OrderBy(x => x.Id)))
                 {
                     _exerciseCacheService.PutExercises(exercises);
+
                     exercises
-                        .Where(x => databaseExercises.Any(y => y == x))
-                        .AsParallel()
-                        .ForAll(async x =>
-                        {
-                            if (databaseExercises.Any(y => y.Id == x.Id))
-                            {
-                                await _databaseService.UpdateExercise(x);
-                            }
-                            else
-                            {
-                                await _databaseService.AddExercise(x);
-                            }
-                        });
+                        .Where(x => !databaseExercises.Any(y => y.Id == x.Id && x.Name == y.Name))
+                        .ToList()
+                        .ForEach(x =>
+                        //exchange for bulk add
+                            _databaseService.AddExercise(x).Wait()
+                        );
+
+                    databaseExercises
+                        .Where(x => !exercises.Any(y => y.Id == x.Id))
+                        .ToList()
+                        .ForEach(x =>
+                        //exchange for bulk delete
+                            _databaseService.DeleteExercise(x).Wait()
+                        );
                 }
             }
-            finally 
+            catch
+            { 
+                //
+            }
+            finally
             {
                 _backgroundJobClientService.Schedule<IUpdateExercisesJob>(x => x.Run(), TimeSpan.FromMinutes(60));
             }

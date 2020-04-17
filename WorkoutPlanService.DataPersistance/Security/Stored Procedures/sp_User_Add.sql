@@ -1,9 +1,10 @@
 ﻿CREATE PROCEDURE [Security].[sp_User_Add]
 	@Id UNIQUEIDENTIFIER,
-	@Name NVARCHAR(100)
+	@Name NVARCHAR(100),
+	@Created DATETIME2(7)
 AS
 	INSERT INTO [Security].[Users]
-		([Id], [Name])
+		([Id], [Name], [Created])
 	VALUES
-		(@Id, @Name)
+		(@Id, @Name, @Created)
 RETURN 0

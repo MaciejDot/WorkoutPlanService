@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [Security].[sp_User_GetAll]
 AS
-	SELECT 
+	SELECT DISTINCT
 		[Name]
 	FROM
 		[Security].[Users]

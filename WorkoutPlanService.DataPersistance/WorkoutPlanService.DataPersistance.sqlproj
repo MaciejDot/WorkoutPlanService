@@ -64,26 +64,25 @@
     <Folder Include="Workout\Tables\" />
     <Folder Include="Security\Stored Procedures\" />
     <Folder Include="Workout\Stored Procedures\" />
+    <Folder Include="Workout\Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Tables\Users.sql" />
     <Build Include="Workout\Tables\Exercise.sql" />
     <Build Include="Workout\Tables\ExerciseExecutionPlan.sql" />
-    <Build Include="Workout\Tables\WorkoutPlan.sql" />
     <Build Include="Workout\Tables\WorkoutPlanVersion.sql" />
     <Build Include="Security\Stored Procedures\sp_User_Add.sql" />
     <Build Include="Security\Stored Procedures\sp_User_Get.sql" />
     <Build Include="Security\Stored Procedures\sp_User_GetAll.sql" />
     <Build Include="Workout\Stored Procedures\sp_Exercise_Add.sql" />
-    <Build Include="Workout\Stored Procedures\sp_Exercise_Update.sql" />
     <Build Include="Workout\Stored Procedures\sp_ExerciseExecutionPlan_Add.sql" />
     <Build Include="Workout\Stored Procedures\sp_WorkoutPlan_Add.sql" />
-    <Build Include="Workout\Stored Procedures\sp_WorkoutPlan_Delete.sql" />
     <Build Include="Workout\Stored Procedures\sp_WorkoutPlan_GetAll.sql" />
     <Build Include="Workout\Stored Procedures\sp_WorkoutPlan_GetUserWorkoutPlans.sql" />
-    <Build Include="Workout\Stored Procedures\sp_WorkoutPlan_Update.sql" />
     <Build Include="Security\Security.sql" />
     <Build Include="Security\Workout.sql" />
     <Build Include="Workout\Stored Procedures\sp_Exercise_GetAll.sql" />
+    <Build Include="Workout\Functions\CheckExerciseIdConstraint.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorokutPlan_Delete.sql" />
   </ItemGroup>
 </Project>

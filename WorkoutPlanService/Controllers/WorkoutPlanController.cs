@@ -75,7 +75,8 @@ namespace WorkoutPlanService.Controllers
         {
             await _mediator.Send(new UpdateWorkoutPlanCommand
             {
-                Name = workoutName,
+                OldName = workoutName,
+                NewName = model.Name,
                 Description = model.Description,
                 Username = User.Identity.Name,
                 IsPublic = model.IsPublic,

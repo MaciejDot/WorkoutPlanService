@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [Workout].[ExerciseExecutionPlan] (
-    [Id]                   UNIQUEIDENTIFIER NOT NULL,
+    [Id]                   BIGINT IDENTITY(1,1) NOT NULL,
     [WorkoutPlanVersionId] UNIQUEIDENTIFIER NOT NULL,
     [Series]               INT              NOT NULL,
     [MinReps]              INT              NOT NULL,
@@ -11,7 +11,7 @@
     [Description]          NVARCHAR (1000)  NULL,
     [Break]                INT              NOT NULL,
     CONSTRAINT [PK_ExerciseExecutionPlan] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_ExerciseExecutionPlan_Exercise_ExerciseId] FOREIGN KEY ([ExerciseId]) REFERENCES [Workout].[Exercise] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [CHECK_ExerciseExecutionPlan_Exercise_ExerciseId] CHECK([Workout].[CheckExerciseIdConstraint](ExerciseId) = 1),
     CONSTRAINT [FK_ExerciseExecutionPlan_WorkoutPlanVersions] FOREIGN KEY ([WorkoutPlanVersionId]) REFERENCES [Workout].[WorkoutPlanVersion] ([Id]) ON DELETE CASCADE
 );
 

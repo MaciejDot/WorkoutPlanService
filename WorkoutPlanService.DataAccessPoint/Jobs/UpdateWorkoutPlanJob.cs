@@ -15,9 +15,9 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
             _databaseService = databaseService;
         }
 
-        public async Task Run(string username, WorkoutPlanPersistanceDTO workoutPlan)
+        public async Task Run(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan)
         {
-            await _databaseService.UpdateWorkoutPlan(username, workoutPlan);
+            await _databaseService.UpdateWorkoutPlan(username, oldWorkoutName, workoutPlan);
         }
     }
 }
