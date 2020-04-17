@@ -77,7 +77,6 @@ namespace WorkoutPlanService.DataAccessPoint.Database
                 "[Security].[sp_User_Add]",
                 new
                 {
-                    Id = _guidProvider.GetGuid(),
                     userPersistanceDTO.Name,
                     Created = _dateTimeService.GetCurrentDate()
                 }
