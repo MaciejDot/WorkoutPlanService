@@ -27,7 +27,7 @@ BEGIN
 		LEFT JOIN [Workout].[ExerciseExecutionPlan] eep
 			ON eep.[WorkoutPlanVersionId] = wpv.[Id]
 		LEFT JOIN [Workout].[Exercise] e
-			ON e.[Id] = eep.[ExerciseId]
+			ON e.[ExerciseId] = eep.[ExerciseId]
 	WHERE
 		wpv.IsActive = 1
 		AND wpv.[Id] 
