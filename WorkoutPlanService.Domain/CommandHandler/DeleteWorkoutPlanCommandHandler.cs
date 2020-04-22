@@ -13,18 +13,14 @@ namespace WorkoutPlanService.Domain.CommandHandler
     public class DeleteWorkoutPlanCommandHandler : IRequestHandler<DeleteWorkoutPlanCommand, Unit>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
-        private readonly IDateTimeHelper _dateTimeHelper;
-
-        public DeleteWorkoutPlanCommandHandler(IWorkoutPlanRepository workoutPlanRepository,
-            IDateTimeHelper dateTimeHelper) 
+        public DeleteWorkoutPlanCommandHandler(IWorkoutPlanRepository workoutPlanRepository) 
         {
             _workoutPlanRepository = workoutPlanRepository;
-            _dateTimeHelper = dateTimeHelper;
         }
 
         public async Task<Unit> Handle(DeleteWorkoutPlanCommand command, CancellationToken cancellationToken)
         {
-            await _workoutPlanRepository.DeleteWorkoutPlanAsync(command.Username, command.WorkoutName, _dateTimeHelper.GetCurrentDateTime());
+            await _workoutPlanRepository.DeleteWorkoutPlanAsync(command.Username, command.WorkoutName);
             return new Unit();
         }
     }

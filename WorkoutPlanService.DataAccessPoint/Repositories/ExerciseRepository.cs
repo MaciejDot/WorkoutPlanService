@@ -1,10 +1,12 @@
 ﻿using CacheManager.Core;
+using SimpleCQRS.Query;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.Cache;
 using WorkoutPlanService.DataAccessPoint.Database;
+using WorkoutPlanService.DataAccessPoint.Database.Query;
 using WorkoutPlanService.DataAccessPoint.DTO;
 using WorkoutPlanService.DataAccessPoint.Hangfire;
 
@@ -12,16 +14,16 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
 {
     public class ExerciseRepository : IExerciseRepository
     {
-        private readonly IDatabaseService _databaseService;
+        private readonly IQueryProcessor _queryProcessor;
         private readonly IBackgroundJobClientService _backgroundJobClientService;
         private readonly IExerciseCacheService _exerciseCacheService;
 
         public ExerciseRepository(
-            IDatabaseService databaseService,
+            IQueryProcessor queryProcessor,
             IBackgroundJobClientService backgroundJobClientService,
             IExerciseCacheService exerciseCacheService)
         {
-            _databaseService = databaseService;
+            _queryProcessor = queryProcessor;
             _backgroundJobClientService = backgroundJobClientService;
             _exerciseCacheService = exerciseCacheService;
         }
@@ -47,7 +49,7 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
 
         private async Task<IEnumerable<ExercisePersistanceDTO>> HandleNullCacheItem(CacheItem<IEnumerable<ExercisePersistanceDTO>> cacheItem)
         {
-            var exercisesFromDatabase = await _databaseService.GetExercises();
+            var exercisesFromDatabase = await _queryProcessor.Process(new GetExercisesQuery(), default);
             _exerciseCacheService.PutExercises(exercisesFromDatabase);
             return exercisesFromDatabase;
         }

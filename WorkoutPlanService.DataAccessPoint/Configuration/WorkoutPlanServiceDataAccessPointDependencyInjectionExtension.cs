@@ -7,7 +7,6 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using WorkoutPlanService.DataAccessPoint.Cache;
 using WorkoutPlanService.DataAccessPoint.Database;
 using WorkoutPlanService.DataAccessPoint.DatetimeService;
@@ -15,6 +14,8 @@ using WorkoutPlanService.DataAccessPoint.GuidService;
 using WorkoutPlanService.DataAccessPoint.Hangfire;
 using WorkoutPlanService.DataAccessPoint.Jobs;
 using WorkoutPlanService.DataAccessPoint.Repositories;
+using System.Reflection;
+using SimpleCQRS.DependencyInjectionExtensions;
 
 namespace WorkoutPlanService.DataAccessPoint.Configuration
 {
@@ -26,6 +27,7 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             return services;
         }
 
+
         public static IServiceCollection AddWorkoutPlanServiceDataAccessPoint(this IServiceCollection services, string sqlConnectionString)
         {
             services.AddScoped<IRestClient, RestClient>();
@@ -36,7 +38,6 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             services.AddScoped<IWorkoutPlanCacheService, WorkoutPlanCacheService>();
             services.AddScoped<IUserCacheService, UserCacheService>();
             services.AddScoped<IExerciseCacheService, ExerciseCacheService>();
-            services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddScoped<IGuidProvider, GuidProvider>();
             services.AddScoped<IBackgroundJobClientService, BackgroundJobClientService>();
             services.AddScoped<IAddWorkoutPlanJob, AddWorkoutPlanJob>();
@@ -46,6 +47,7 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             services.AddScoped<IPopulateUserCacheJob, PopulateUserCacheJob>();
             services.AddScoped<IPopulateWorkoutPlans, PopulateWorkoutPlans>();
             services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddSimpleCQRS(Assembly.GetExecutingAssembly());
             services.AddHangfire(configuration =>
             {
                 configuration

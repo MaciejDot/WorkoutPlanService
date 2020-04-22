@@ -1,30 +1,32 @@
-﻿using System;
+﻿using SimpleCQRS.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.Cache;
 using WorkoutPlanService.DataAccessPoint.Database;
+using WorkoutPlanService.DataAccessPoint.Database.Query;
 using WorkoutPlanService.DataAccessPoint.Hangfire;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     public class PopulateWorkoutPlans : IPopulateWorkoutPlans
     {
-        private readonly IDatabaseService _databaseService;
+        private readonly IQueryProcessor _queryProcessor;
         private readonly IWorkoutPlanCacheService _workoutPlanCacheService;
         private readonly IBackgroundJobClientService _backgroundJobClientService;
 
-        public PopulateWorkoutPlans(IDatabaseService databaseService, IWorkoutPlanCacheService workoutPlanCacheService, IBackgroundJobClientService backgroundJobClientService)
+        public PopulateWorkoutPlans(IQueryProcessor queryProcessor, IWorkoutPlanCacheService workoutPlanCacheService, IBackgroundJobClientService backgroundJobClientService)
         {
-            _databaseService = databaseService;
+            _queryProcessor = queryProcessor;
             _workoutPlanCacheService = workoutPlanCacheService;
             _backgroundJobClientService = backgroundJobClientService;
         }
 
         public async Task Run()
         {
-            var workoutPlans = await _databaseService.GetAllWorkoutPlans();
+            var workoutPlans = await _queryProcessor.Process(new GetAllWorkoutPlansQuery(), default);
             workoutPlans
                     .AsParallel()
                     .ForAll(workoutPlans => _workoutPlanCacheService.AddWorkoutPlans(workoutPlans.Key, workoutPlans.Value));

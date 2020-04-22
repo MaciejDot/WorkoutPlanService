@@ -1,24 +1,26 @@
-﻿using System;
+﻿using SimpleCQRS.Command;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.Database;
+using WorkoutPlanService.DataAccessPoint.Database.Command;
 using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     public class AddWorkoutPlanJob : IAddWorkoutPlanJob
     {
-        private readonly IDatabaseService _databaseService;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public AddWorkoutPlanJob(IDatabaseService databaseService)
+        public AddWorkoutPlanJob(ICommandDispatcher commandDispatcher)
         {
-            _databaseService = databaseService;
+            _commandDispatcher = commandDispatcher;
         }
 
         public async Task Run(string username, WorkoutPlanPersistanceDTO workoutPlanPersistanceDTO)
         {
-            await _databaseService.AddWorkoutPlan(username, workoutPlanPersistanceDTO);
+            await _commandDispatcher.Dispatch(new AddWorkoutPlanCommand { Username = username, WorkoutPlan = workoutPlanPersistanceDTO }, default);
         }
     }
 }

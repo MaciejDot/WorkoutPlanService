@@ -9,29 +9,31 @@ using WorkoutPlanService.DataAccessPoint.Database;
 using WorkoutPlanService.DataAccessPoint.DTO;
 using WorkoutPlanService.DataAccessPoint.Hangfire;
 using WorkoutPlanService.DataAccessPoint.Jobs;
+using SimpleCQRS.Query;
+using WorkoutPlanService.DataAccessPoint.Database.Query;
 
 namespace WorkoutPlanService.DataAccessPoint.Repositories
 {
     public class WorkoutPlanRepository : IWorkoutPlanRepository
     {
-        private readonly IDatabaseService _databaseService;
         private readonly IWorkoutPlanCacheService _workoutPlanCacheService;
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IQueryProcessor _queryProcessor;
         private readonly IBackgroundJobClientService _backgroundJobClientService;
 
         public WorkoutPlanRepository(
-            IDatabaseService databaseService,
             IWorkoutPlanCacheService workoutPlanCacheService,
             IUserRepository userRepository,
             IExerciseRepository exerciseRepository,
-            IBackgroundJobClientService backgroundJobClientService)
+            IBackgroundJobClientService backgroundJobClientService,
+            IQueryProcessor queryProcessor)
         {
-            _databaseService = databaseService;
             _workoutPlanCacheService = workoutPlanCacheService;
             _exerciseRepository = exerciseRepository;
             _userRepository = userRepository;
             _backgroundJobClientService = backgroundJobClientService;
+            _queryProcessor = queryProcessor;
         }
 
         public async Task AddWorkoutPlanAsync(string username, WorkoutPlanPersistanceDTO workoutPlan)
@@ -61,14 +63,14 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             _backgroundJobClientService.Enqueue<IUpdateWorkoutPlanJob>(x => x.Run(username, oldWorkoutName, workoutPlan));
         }
 
-        public async Task DeleteWorkoutPlanAsync(string username, string workoutName, DateTime deactivationDate)
+        public async Task DeleteWorkoutPlanAsync(string username, string workoutName)
         {
             if (!await UserWorkoutPlanExistsAsync(workoutName, username))
             {
                 throw new Exception("there is no such workout");
             };
             DeleteWorkoutFromCache(username, workoutName);
-            _backgroundJobClientService.Enqueue<IDeleteWorkoutPlanJob>(x => x.Run(username, workoutName, deactivationDate));
+            _backgroundJobClientService.Enqueue<IDeleteWorkoutPlanJob>(x => x.Run(username, workoutName));
         }
 
         private void AddWorkoutPlanToCache(string username, WorkoutPlanPersistanceDTO workoutPlan)
@@ -113,7 +115,7 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
 
         private async Task<IEnumerable<WorkoutPlanPersistanceDTO>> HandleNullCacheItem(string username)
         {
-            var workoutPlansFromDatabase = await _databaseService.GetWoroutPlansAsync(username);
+            var workoutPlansFromDatabase = await _queryProcessor.Process(new GetWorkoutPlansQuery { Username = username }, default);
             _workoutPlanCacheService.PutWorkoutPlans(username, workoutPlansFromDatabase);
             return workoutPlansFromDatabase;
         }

@@ -10,6 +10,6 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
         Task<IEnumerable<WorkoutPlanPersistanceDTO>> GetAllUserWorkutPlansAsync(string username);
         Task AddWorkoutPlanAsync(string username, WorkoutPlanPersistanceDTO workoutPlan);
         Task UpdateWorkoutPlanAsync(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan);
-        Task DeleteWorkoutPlanAsync(string username, string workoutName, DateTime deactivationDate);
+        Task DeleteWorkoutPlanAsync(string username, string workoutName);
     }
 }

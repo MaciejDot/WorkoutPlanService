@@ -1,23 +1,25 @@
-﻿using System;
+﻿using SimpleCQRS.Command;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.Database;
+using WorkoutPlanService.DataAccessPoint.Database.Command;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     public class DeleteWorkoutPlanJob : IDeleteWorkoutPlanJob
     {
-        public IDatabaseService _databaseService;
+        public ICommandDispatcher _commandDispatcher;
 
-        public DeleteWorkoutPlanJob(IDatabaseService databaseService)
+        public DeleteWorkoutPlanJob(ICommandDispatcher commandDispatcher)
         {
-            _databaseService = databaseService;
+            _commandDispatcher = commandDispatcher;
         }
 
-        public async Task Run(string username, string workoutName, DateTime deactivationDate)
+        public async Task Run(string username, string workoutName)
         {
-            await _databaseService.DeleteWorkoutPlan(username, workoutName, deactivationDate);
+            await _commandDispatcher.Dispatch(new DeleteWorkoutPlanCommand { Username = username, WorkoutName = workoutName },default);
         }
     }
 }
