@@ -6,7 +6,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Cache
 {
-    public class UserCacheService : IUserCacheService
+    public sealed class UserCacheService : IUserCacheService
     {
         private readonly ICacheManager<UserPersistanceDTO> _cacheManager;
 

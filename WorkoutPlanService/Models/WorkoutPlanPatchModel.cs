@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WorkoutPlanService.Models
 {
-    public class WorkoutPlanPatchModel
+    public sealed class WorkoutPlanPatchModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

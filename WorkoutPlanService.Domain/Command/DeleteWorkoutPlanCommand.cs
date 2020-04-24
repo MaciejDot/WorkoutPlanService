@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorkoutPlanService.Domain.Command
 {
-    public class DeleteWorkoutPlanCommand : IRequest<Unit>
+    public sealed class DeleteWorkoutPlanCommand : IRequest<Unit>
     {
         public string Username { get; set; }
         public string WorkoutName { get; set; }

@@ -12,7 +12,7 @@ namespace WorkoutPlanService.Domain.Configuration
     {
         public static IServiceCollection AddWorkoutPlanServiceDomain(this IServiceCollection services) {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddScoped<IDateTimeHelper, DateTimeHelper.DateTimeHelper>();
+            services.AddSingleton<IDateTimeHelper, DateTimeHelper.DateTimeHelper>();
             return services;
         }
     }

@@ -12,7 +12,7 @@ using WorkoutPlanService.DataAccessPoint.DatetimeService;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
 {
-    public class AddUserCommandHandler : ICommandHandler<AddUserCommand>
+    public sealed class AddUserCommandHandler : ICommandHandler<AddUserCommand>
     {
         private readonly SqlConnection _sqlConnection;
         private readonly IDateTimeService _dateTimeService;

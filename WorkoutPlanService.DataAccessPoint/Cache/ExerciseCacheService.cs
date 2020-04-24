@@ -6,7 +6,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Cache
 {
-    public class ExerciseCacheService : IExerciseCacheService
+    public sealed class ExerciseCacheService : IExerciseCacheService
     {
         private readonly ICacheManager<IEnumerable<ExercisePersistanceDTO>> _cacheManager;
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.Command
 {
-    public class DeleteExercisesCommand : ICommand
+    public sealed class DeleteExercisesCommand : ICommand
     {
         public IEnumerable<int> Ids { get; set; }
     }

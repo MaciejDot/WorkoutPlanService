@@ -8,7 +8,7 @@ using WorkoutPlanService.DataAccessPoint.Database.Command;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
-    public class DeleteWorkoutPlanJob : IDeleteWorkoutPlanJob
+    public sealed class DeleteWorkoutPlanJob : IDeleteWorkoutPlanJob
     {
         public ICommandDispatcher _commandDispatcher;
 

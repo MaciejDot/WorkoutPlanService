@@ -12,5 +12,11 @@
     <ProjectReference Include="..\WorkoutPlanService.Domain\WorkoutPlanService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="runtimeconfig.template.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>

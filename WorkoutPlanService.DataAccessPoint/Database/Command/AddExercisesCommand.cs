@@ -6,7 +6,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.Command
 {
-    public class AddExercisesCommand : ICommand
+    public sealed class AddExercisesCommand : ICommand
     {
         public IEnumerable<ExercisePersistanceDTO> Exercises { get; set; }
     }

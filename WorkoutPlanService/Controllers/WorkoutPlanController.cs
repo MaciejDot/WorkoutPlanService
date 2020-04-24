@@ -18,7 +18,7 @@ namespace WorkoutPlanService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WorkoutPlanController : ControllerBase
+    public sealed class WorkoutPlanController : ControllerBase
     {
         private readonly IMediator _mediator;
         public WorkoutPlanController(IMediator mediator)

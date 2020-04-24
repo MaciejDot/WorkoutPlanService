@@ -12,7 +12,7 @@ using WorkoutPlanService.Domain.DateTimeHelper;
 
 namespace WorkoutPlanService.Domain.CommandHandler
 {
-    public class UpdateWorkoutPlanCommandHandler : IRequestHandler<UpdateWorkoutPlanCommand, Unit>
+    public sealed class UpdateWorkoutPlanCommandHandler : IRequestHandler<UpdateWorkoutPlanCommand, Unit>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
         private readonly IDateTimeHelper _dateTimeHelper;

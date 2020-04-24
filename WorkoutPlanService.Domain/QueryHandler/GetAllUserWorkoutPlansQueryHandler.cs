@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace WorkoutPlanService.Domain.QueryHandler
 {
-    public class GetAllUserWorkoutPlansQueryHandler : IRequestHandler<GetAllUserWorkoutPlansQuery, IEnumerable<WorkoutPlanThumbnailDTO>>
+    public sealed class GetAllUserWorkoutPlansQueryHandler : IRequestHandler<GetAllUserWorkoutPlansQuery, IEnumerable<WorkoutPlanThumbnailDTO>>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
 

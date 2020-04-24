@@ -11,7 +11,7 @@ using WorkoutPlanService.DataAccessPoint.Database.Query;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
-    public class PopulateUserCacheJob : IPopulateUserCacheJob
+    public sealed class PopulateUserCacheJob : IPopulateUserCacheJob
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IUserCacheService _userCacheService;

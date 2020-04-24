@@ -11,7 +11,7 @@ using WorkoutPlanService.Domain.Query;
 
 namespace WorkoutPlanService.Domain.QueryHandler
 {
-    public class GetSpecificWorkoutQueryHandler : IRequestHandler<GetSpecificWorkoutQuery, WorkoutPlanDTO>
+    public sealed class GetSpecificWorkoutQueryHandler : IRequestHandler<GetSpecificWorkoutQuery, WorkoutPlanDTO>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
 

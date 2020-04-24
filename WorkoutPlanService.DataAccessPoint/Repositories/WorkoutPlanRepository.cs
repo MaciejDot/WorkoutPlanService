@@ -14,7 +14,7 @@ using WorkoutPlanService.DataAccessPoint.Database.Query;
 
 namespace WorkoutPlanService.DataAccessPoint.Repositories
 {
-    public class WorkoutPlanRepository : IWorkoutPlanRepository
+    public sealed class WorkoutPlanRepository : IWorkoutPlanRepository
     {
         private readonly IWorkoutPlanCacheService _workoutPlanCacheService;
         private readonly IExerciseRepository _exerciseRepository;

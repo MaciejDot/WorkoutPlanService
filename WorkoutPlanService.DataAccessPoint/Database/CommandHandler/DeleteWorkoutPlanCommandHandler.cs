@@ -13,7 +13,7 @@ using WorkoutPlanService.DataAccessPoint.GuidService;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
 {
-    public class DeleteWorkoutPlanCommandHandler : ICommandHandler<DeleteWorkoutPlanCommand>
+    public sealed class DeleteWorkoutPlanCommandHandler : ICommandHandler<DeleteWorkoutPlanCommand>
     {
         private readonly SqlConnection _sqlConnection;
         private readonly IDateTimeService _dateTimeService;

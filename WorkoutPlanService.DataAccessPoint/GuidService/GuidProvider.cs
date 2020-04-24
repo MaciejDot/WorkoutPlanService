@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.GuidService
 {
-    public class GuidProvider : IGuidProvider
+    public sealed class GuidProvider : IGuidProvider
     {
         public Guid GetGuid()
         {

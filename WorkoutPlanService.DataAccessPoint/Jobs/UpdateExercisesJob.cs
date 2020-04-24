@@ -17,7 +17,7 @@ using WorkoutPlanService.DataAccessPoint.Hangfire;
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     //do przerobienie nasluchuje zmian z mb 
-    public class UpdateExercisesJob : IUpdateExercisesJob
+    public sealed class UpdateExercisesJob : IUpdateExercisesJob
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly ICommandDispatcher _commandDispatcher; 

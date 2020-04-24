@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkoutPlanService.Domain.Models
 {
-    public class ExercisePlanCommandModel
+    public sealed class ExercisePlanCommandModel
     {
         public int Series { get; set; }
         public int MinReps { get; set; }

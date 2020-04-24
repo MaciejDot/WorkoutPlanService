@@ -9,7 +9,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
-    public class UpdateWorkoutPlanJob : IUpdateWorkoutPlanJob
+    public sealed class UpdateWorkoutPlanJob : IUpdateWorkoutPlanJob
     {
         private readonly ICommandDispatcher _commandDispatcher;
 

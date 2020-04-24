@@ -6,7 +6,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.Command
 {
-    public class UpdateWorkoutPlanCommand : ICommand
+    public sealed class UpdateWorkoutPlanCommand : ICommand
     {
         public WorkoutPlanPersistanceDTO WorkoutPlan { get; set; }
         public string OldWorkoutName { get; set; }

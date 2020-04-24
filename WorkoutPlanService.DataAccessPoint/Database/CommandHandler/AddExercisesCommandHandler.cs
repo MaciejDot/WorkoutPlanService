@@ -13,7 +13,7 @@ using WorkoutPlanService.DataAccessPoint.DatetimeService;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
 {
-    public class AddExercisesCommandHandler : ICommandHandler<AddExercisesCommand>
+    public sealed class AddExercisesCommandHandler : ICommandHandler<AddExercisesCommand>
     {
         private readonly SqlConnection _sqlConnection;
         private readonly IDateTimeService _dateTimeService;
@@ -31,7 +31,7 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
                 ExerciseId = x.Id,
                 IsActive = true,
                 Created = _dateTimeService.GetCurrentDate()
-            }).ToArray(), commandType: CommandType.StoredProcedure);
+            }), commandType: CommandType.StoredProcedure);
         }
     }
 }

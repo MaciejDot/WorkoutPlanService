@@ -8,7 +8,7 @@ using WorkoutPlanService.DataAccessPoint.Database.Command;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
 {
-    public class UpdateWorkoutPlanCommandHandler : ICommandHandler<UpdateWorkoutPlanCommand>
+    public sealed class UpdateWorkoutPlanCommandHandler : ICommandHandler<UpdateWorkoutPlanCommand>
     {
         private readonly ICommandDispatcher _commandDispatcher;
         public UpdateWorkoutPlanCommandHandler(ICommandDispatcher commandDispatcher) 

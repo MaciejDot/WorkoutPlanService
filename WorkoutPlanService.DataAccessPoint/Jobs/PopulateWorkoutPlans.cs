@@ -11,7 +11,7 @@ using WorkoutPlanService.DataAccessPoint.Hangfire;
 
 namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
-    public class PopulateWorkoutPlans : IPopulateWorkoutPlans
+    public sealed class PopulateWorkoutPlans : IPopulateWorkoutPlans
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IWorkoutPlanCacheService _workoutPlanCacheService;

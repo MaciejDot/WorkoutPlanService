@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.DTO
 {
-    public class UserPersistanceDTO
+    public sealed class UserPersistanceDTO
     {
         public string Name { get; set; }
     }

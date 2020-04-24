@@ -7,7 +7,7 @@ using WorkoutPlanService.Domain.DTO;
 
 namespace WorkoutPlanService.Domain.Query
 {
-    public class GetAllUserWorkoutPlansQuery : IRequest<IEnumerable<WorkoutPlanThumbnailDTO>>
+    public sealed class GetAllUserWorkoutPlansQuery : IRequest<IEnumerable<WorkoutPlanThumbnailDTO>>
     {
         public string Username { get; set; }
     }

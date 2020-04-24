@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkoutPlanService.Domain.DateTimeHelper
 {
-    public class DateTimeHelper : IDateTimeHelper
+    public sealed class DateTimeHelper : IDateTimeHelper
     {
         public DateTime GetCurrentDateTime()
         {

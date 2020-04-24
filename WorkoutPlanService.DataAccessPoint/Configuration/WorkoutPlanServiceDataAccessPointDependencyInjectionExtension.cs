@@ -30,23 +30,23 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
 
         public static IServiceCollection AddWorkoutPlanServiceDataAccessPoint(this IServiceCollection services, string sqlConnectionString)
         {
-            services.AddScoped<IRestClient, RestClient>();
-            services.AddScoped<IWorkoutPlanRepository, WorkoutPlanRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IExerciseRepository, ExerciseRepository>();
-            services.AddScoped(_ => new SqlConnection(sqlConnectionString));
-            services.AddScoped<IWorkoutPlanCacheService, WorkoutPlanCacheService>();
-            services.AddScoped<IUserCacheService, UserCacheService>();
-            services.AddScoped<IExerciseCacheService, ExerciseCacheService>();
-            services.AddScoped<IGuidProvider, GuidProvider>();
-            services.AddScoped<IBackgroundJobClientService, BackgroundJobClientService>();
-            services.AddScoped<IAddWorkoutPlanJob, AddWorkoutPlanJob>();
-            services.AddScoped<IUpdateWorkoutPlanJob, UpdateWorkoutPlanJob>();
-            services.AddScoped<IDeleteWorkoutPlanJob, DeleteWorkoutPlanJob>();
-            services.AddScoped<IUpdateExercisesJob, UpdateExercisesJob>();
-            services.AddScoped<IPopulateUserCacheJob, PopulateUserCacheJob>();
-            services.AddScoped<IPopulateWorkoutPlans, PopulateWorkoutPlans>();
-            services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IWorkoutPlanRepository, WorkoutPlanRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IExerciseRepository, ExerciseRepository>();
+            services.AddTransient(_ => new SqlConnection(sqlConnectionString));
+            services.AddTransient<IWorkoutPlanCacheService, WorkoutPlanCacheService>();
+            services.AddTransient<IUserCacheService, UserCacheService>();
+            services.AddTransient<IExerciseCacheService, ExerciseCacheService>();
+            services.AddSingleton<IGuidProvider, GuidProvider>();
+            services.AddSingleton<IBackgroundJobClientService, BackgroundJobClientService>();
+            services.AddTransient<IAddWorkoutPlanJob, AddWorkoutPlanJob>();
+            services.AddTransient<IUpdateWorkoutPlanJob, UpdateWorkoutPlanJob>();
+            services.AddTransient<IDeleteWorkoutPlanJob, DeleteWorkoutPlanJob>();
+            services.AddTransient<IUpdateExercisesJob, UpdateExercisesJob>();
+            services.AddTransient<IPopulateUserCacheJob, PopulateUserCacheJob>();
+            services.AddTransient<IPopulateWorkoutPlans, PopulateWorkoutPlans>();
+            services.AddSingleton<IDateTimeService, DateTimeService>();
             services.AddSimpleCQRS(Assembly.GetExecutingAssembly());
             services.AddHangfire(configuration =>
             {

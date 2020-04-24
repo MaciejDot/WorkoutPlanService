@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkoutPlanService.Domain.DTO
 {
-    public class ExerciseExecutionDTO
+    public sealed class ExerciseExecutionDTO
     {
         public int Series { get; set; }
         public int MinReps { get; set; }

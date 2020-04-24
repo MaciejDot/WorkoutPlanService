@@ -13,7 +13,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.QueryHandler
 {
-    public class GetWorkoutPlansQueryHandler : IQueryHandler<GetWorkoutPlansQuery, IEnumerable<WorkoutPlanPersistanceDTO>>
+    public sealed class GetWorkoutPlansQueryHandler : IQueryHandler<GetWorkoutPlansQuery, IEnumerable<WorkoutPlanPersistanceDTO>>
     {
         private readonly SqlConnection _sqlConnection;
 

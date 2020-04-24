@@ -6,7 +6,7 @@ using WorkoutPlanService.DataAccessPoint.DTO;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.Query
 {
-    public class GetAllWorkoutPlansQuery : IQuery<IDictionary<string, IEnumerable<WorkoutPlanPersistanceDTO>>>
+    public sealed class GetAllWorkoutPlansQuery : IQuery<IDictionary<string, IEnumerable<WorkoutPlanPersistanceDTO>>>
     {
     }
 }

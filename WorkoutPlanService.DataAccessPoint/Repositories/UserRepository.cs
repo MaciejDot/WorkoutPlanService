@@ -14,7 +14,7 @@ using WorkoutPlanService.DataAccessPoint.Jobs;
 
 namespace WorkoutPlanService.DataAccessPoint.Repositories
 {
-    class UserRepository : IUserRepository
+    public sealed class UserRepository : IUserRepository
     {
         private readonly IUserCacheService _userCacheService;
         private readonly ICommandDispatcher _commandDispatcher;

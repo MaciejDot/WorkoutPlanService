@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WorkoutPlanService.Models
 {
-    public class WorkoutPlanPostModel
+    public sealed class WorkoutPlanPostModel
     {
 
         public string Name { get; set; }

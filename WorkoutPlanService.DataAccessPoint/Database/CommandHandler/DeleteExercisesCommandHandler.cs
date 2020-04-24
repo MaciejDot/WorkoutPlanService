@@ -31,7 +31,7 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
                 ExerciseId = x,
                 IsActive = false,
                 Created = _dateTimeService.GetCurrentDate()
-            }).ToArray(), commandType: CommandType.StoredProcedure);
+            }), commandType: CommandType.StoredProcedure);
         }
     }
 }

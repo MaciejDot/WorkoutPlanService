@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.DTO
 {
-    public class ExerciseExecutionPersistanceDTO
+    public sealed class ExerciseExecutionPersistanceDTO
     {
         public int Series { get; set; }
         public int MinReps { get; set; }

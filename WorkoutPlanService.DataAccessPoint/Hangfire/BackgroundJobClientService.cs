@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.Hangfire
 {
-    public class BackgroundJobClientService : IBackgroundJobClientService
+    public sealed class BackgroundJobClientService : IBackgroundJobClientService
     {
         public void Enqueue<T>(Expression<Action<T>> methodCall)
         {

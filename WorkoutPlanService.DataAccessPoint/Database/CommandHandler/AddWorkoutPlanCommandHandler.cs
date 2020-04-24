@@ -15,7 +15,7 @@ using WorkoutPlanService.DataAccessPoint.GuidService;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
 {
-    public class AddWorkoutPlanCommandHandler : ICommandHandler<AddWorkoutPlanCommand>
+    public sealed class AddWorkoutPlanCommandHandler : ICommandHandler<AddWorkoutPlanCommand>
     {
         private readonly SqlConnection _sqlConnection;
         private readonly IDateTimeService _dateTimeService;

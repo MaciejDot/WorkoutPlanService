@@ -6,7 +6,7 @@ using WorkoutPlanService.Domain.DTO;
 
 namespace WorkoutPlanService.Domain.Query
 {
-    public class GetSpecificWorkoutQuery : IRequest<WorkoutPlanDTO>
+    public sealed class GetSpecificWorkoutQuery : IRequest<WorkoutPlanDTO>
     {
         public string IssuerName { get; set; }
         public string OwnerName { get; set; }

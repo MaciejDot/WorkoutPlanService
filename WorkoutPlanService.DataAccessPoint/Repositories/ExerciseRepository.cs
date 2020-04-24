@@ -12,7 +12,7 @@ using WorkoutPlanService.DataAccessPoint.Hangfire;
 
 namespace WorkoutPlanService.DataAccessPoint.Repositories
 {
-    public class ExerciseRepository : IExerciseRepository
+    public sealed class ExerciseRepository : IExerciseRepository
     {
         private readonly IQueryProcessor _queryProcessor;
         private readonly IBackgroundJobClientService _backgroundJobClientService;

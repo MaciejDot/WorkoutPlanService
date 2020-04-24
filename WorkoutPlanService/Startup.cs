@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +19,7 @@ using WorkoutPlanService.Domain.Configuration;
 
 namespace WorkoutPlanService
 {
-    public class Startup
+    public sealed class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -79,6 +79,8 @@ namespace WorkoutPlanService
             {
                 app.UseDeveloperExceptionPage();
             }
+            //RAM Heavy //CPU Low optimalization
+            GCSettings.LatencyMode = GCLatencyMode.SustainedLowLatency;
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseWorkoutPlanServiceDataAccessPoint(backgroundClient);

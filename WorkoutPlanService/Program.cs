@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WorkoutPlanService
 {
-    public class Program
+    public sealed class Program
     {
         public static void Main(string[] args)
         {
@@ -20,7 +20,9 @@ namespace WorkoutPlanService
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseSockets()
+                        .UseStartup<Startup>();
                 });
     }
 }

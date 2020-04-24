@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WorkoutPlanService.DataAccessPoint.Database.Command
 {
-    public class AddUserCommand : ICommand
+    public sealed class AddUserCommand : ICommand
     {
         public string Name { get; set; }
     }

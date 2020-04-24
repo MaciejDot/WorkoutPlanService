@@ -10,7 +10,7 @@ using WorkoutPlanService.Domain.DateTimeHelper;
 
 namespace WorkoutPlanService.Domain.CommandHandler
 {
-    public class DeleteWorkoutPlanCommandHandler : IRequestHandler<DeleteWorkoutPlanCommand, Unit>
+    public sealed class DeleteWorkoutPlanCommandHandler : IRequestHandler<DeleteWorkoutPlanCommand, Unit>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
         public DeleteWorkoutPlanCommandHandler(IWorkoutPlanRepository workoutPlanRepository) 

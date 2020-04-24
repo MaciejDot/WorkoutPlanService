@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WorkoutPlanService.Models
 {
-    public class ExercisePlanModel
+    public sealed class ExercisePlanModel
     {
         public int Series { get; set; }
         public int MinReps { get; set; }
