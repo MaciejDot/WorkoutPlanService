@@ -43,6 +43,7 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
                 workoutPlanPersistanceDTO.IsPublic,
                 workoutPlanPersistanceDTO.Created,
                 workoutPlanPersistanceDTO.Description,
+                workoutPlanPersistanceDTO.ExternalId,
                 Username = username,
                 WorkouPlanVersionId = workouPlanVersionId,
                 IsActive = true,

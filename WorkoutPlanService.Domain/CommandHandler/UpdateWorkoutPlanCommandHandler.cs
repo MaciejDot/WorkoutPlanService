@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.DTO;
 using WorkoutPlanService.DataAccessPoint.Repositories;
 using WorkoutPlanService.Domain.Command;
-using WorkoutPlanService.Domain.DateTimeHelper;
+using WorkoutPlanService.Domain.Helpers;
 
 namespace WorkoutPlanService.Domain.CommandHandler
 {
@@ -24,9 +24,10 @@ namespace WorkoutPlanService.Domain.CommandHandler
 
         public async Task<Unit> Handle(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken)
         {
-            await _workoutPlanRepository.UpdateWorkoutPlanAsync(command.Username, command.OldName, new WorkoutPlanPersistanceDTO
+            await _workoutPlanRepository.UpdateWorkoutPlanAsync(command.Username, new WorkoutPlanPersistanceDTO
             {
-                Name = command.NewName,
+                ExternalId = command.ExternalId,
+                Name = command.Name,
                 Created = _dateTimeHelper.GetCurrentDateTime(),
                 Description = command.Description,
                 IsPublic = command.IsPublic,

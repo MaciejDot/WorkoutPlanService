@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [Workout].[WorkoutPlanVersion] (
     [Id]            UNIQUEIDENTIFIER NOT NULL,
     [UserId]        UNIQUEIDENTIFIER NOT NULL,
+    [ExternalId]    UNIQUEIDENTIFIER NOT NULL,
     [IsActive]      BIT    NULL,
     [Name]          NVARCHAR (400)   NOT NULL,
     [Created]       DATETIME2 (7)    NOT NULL,
@@ -17,5 +18,5 @@ CREATE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_UserId_IsActive]
 
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_WorkoutPlanId_Created]
-    ON [Workout].[WorkoutPlanVersion]([Name] ASC, [Created] ASC);
+    ON [Workout].[WorkoutPlanVersion]([ExternalId] ASC, [Created] ASC);
 

@@ -7,7 +7,7 @@ namespace WorkoutPlanService.DataAccessPoint.Database.Command
 {
     public sealed class DeleteWorkoutPlanCommand : ICommand
     {
-        public string WorkoutName { get; set; }
+        public Guid ExternalId { get; set; }
         public string Username { get; set; }
     }
 }

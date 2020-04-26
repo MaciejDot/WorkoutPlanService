@@ -6,7 +6,7 @@ using WorkoutPlanService.Domain.Models;
 
 namespace WorkoutPlanService.Domain.Command
 {
-    public sealed class CreateWorkoutPlanCommand : IRequest<Unit>
+    public sealed class CreateWorkoutPlanCommand : IRequest<Guid>
     {
         public string Name { get; set; }
         public string Description { get; set; }

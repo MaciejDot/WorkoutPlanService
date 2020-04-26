@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using WorkoutPlanService.Domain.DateTimeHelper;
+using WorkoutPlanService.Domain.Helpers;
 
 namespace WorkoutPlanService.Domain.Configuration
 {
@@ -12,7 +12,8 @@ namespace WorkoutPlanService.Domain.Configuration
     {
         public static IServiceCollection AddWorkoutPlanServiceDomain(this IServiceCollection services) {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddSingleton<IDateTimeHelper, DateTimeHelper.DateTimeHelper>();
+            services.AddSingleton<IDateTimeHelper, DateTimeHelper>();
+            services.AddSingleton<IGuidProvider, GuidProvider>();
             return services;
         }
     }

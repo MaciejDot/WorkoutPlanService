@@ -9,7 +9,6 @@ namespace WorkoutPlanService.DataAccessPoint.Database.Command
     public sealed class UpdateWorkoutPlanCommand : ICommand
     {
         public WorkoutPlanPersistanceDTO WorkoutPlan { get; set; }
-        public string OldWorkoutName { get; set; }
         public string Username { get; set; }
     }
 }

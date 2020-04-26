@@ -5,6 +5,6 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     public interface IUpdateWorkoutPlanJob
     {
-        Task Run(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan);
+        Task Run(string username, WorkoutPlanPersistanceDTO workoutPlan);
     }
 }

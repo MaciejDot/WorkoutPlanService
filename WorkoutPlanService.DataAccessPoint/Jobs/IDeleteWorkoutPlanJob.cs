@@ -5,6 +5,6 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
 {
     public interface IDeleteWorkoutPlanJob
     {
-        Task Run(string username, string workoutName);
+        Task Run(string username, Guid ExternalId);
     }
 }

@@ -18,12 +18,11 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
             _commandDispatcher = commandDispatcher;
         }
 
-        public async Task Run(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan)
+        public async Task Run(string username, WorkoutPlanPersistanceDTO workoutPlan)
         {
             await _commandDispatcher.Dispatch(new UpdateWorkoutPlanCommand
             {
                 Username = username,
-                OldWorkoutName = oldWorkoutName,
                 WorkoutPlan = workoutPlan
             }, default);
         }

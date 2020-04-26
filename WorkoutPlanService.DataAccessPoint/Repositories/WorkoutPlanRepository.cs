@@ -39,10 +39,6 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
         public async Task AddWorkoutPlanAsync(string username, WorkoutPlanPersistanceDTO workoutPlan)
         {
             await ValidateExercisesAsync(workoutPlan);
-            if (await UserWorkoutPlanExistsAsync(workoutPlan.Name, username)) 
-            {
-                throw new Exception("Workout name is already taken");
-            };
             if (!_userRepository.DoesUserExistsInCacheAsync(username)) 
             {
                 await _userRepository.AddUser(username);
@@ -51,26 +47,26 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             _backgroundJobClientService.Enqueue<IAddWorkoutPlanJob>(x => x.Run(username, workoutPlan));
         }
 
-        public async Task UpdateWorkoutPlanAsync(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan)
+        public async Task UpdateWorkoutPlanAsync(string username, WorkoutPlanPersistanceDTO workoutPlan)
         {
 
             await ValidateExercisesAsync(workoutPlan);
-            if (!await UserWorkoutPlanExistsAsync(oldWorkoutName, username))
+            if (!await UserWorkoutPlanExistsAsync(username, workoutPlan.ExternalId))
             {
                 throw new Exception("there is no such workout");
             };
-            UpdateWorkoutInCache(username, oldWorkoutName, workoutPlan);
-            _backgroundJobClientService.Enqueue<IUpdateWorkoutPlanJob>(x => x.Run(username, oldWorkoutName, workoutPlan));
+            UpdateWorkoutInCache(username, workoutPlan);
+            _backgroundJobClientService.Enqueue<IUpdateWorkoutPlanJob>(x => x.Run(username, workoutPlan));
         }
 
-        public async Task DeleteWorkoutPlanAsync(string username, string workoutName)
+        public async Task DeleteWorkoutPlanAsync(string username, Guid externalId)
         {
-            if (!await UserWorkoutPlanExistsAsync(workoutName, username))
+            if (!await UserWorkoutPlanExistsAsync(username, externalId))
             {
                 throw new Exception("there is no such workout");
             };
-            DeleteWorkoutFromCache(username, workoutName);
-            _backgroundJobClientService.Enqueue<IDeleteWorkoutPlanJob>(x => x.Run(username, workoutName));
+            DeleteWorkoutFromCache(username, externalId);
+            _backgroundJobClientService.Enqueue<IDeleteWorkoutPlanJob>(x => x.Run(username, externalId));
         }
 
         private void AddWorkoutPlanToCache(string username, WorkoutPlanPersistanceDTO workoutPlan)
@@ -81,15 +77,15 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             _workoutPlanCacheService.PutWorkoutPlans(username, saveWorkouts);
         }
 
-        private void DeleteWorkoutFromCache(string username, string workoutName) 
+        private void DeleteWorkoutFromCache(string username, Guid externalId) 
         {
             var workouts = _workoutPlanCacheService.GetUserWorkouts(username).Value;
-            _workoutPlanCacheService.PutWorkoutPlans(username, workouts.Where(x => x.Name != workoutName));
+            _workoutPlanCacheService.PutWorkoutPlans(username, workouts.Where(x => x.ExternalId != externalId));
         }
 
-        private void UpdateWorkoutInCache(string username, string oldWorkoutName, WorkoutPlanPersistanceDTO workoutPlan) {
+        private void UpdateWorkoutInCache(string username, WorkoutPlanPersistanceDTO workoutPlan) {
             var workouts = _workoutPlanCacheService.GetUserWorkouts(username).Value;
-            var saveWorkouts = workouts.Where(x => x.Name != oldWorkoutName)
+            var saveWorkouts = workouts.Where(x => x.ExternalId != workoutPlan.ExternalId)
                 .ToList();
             saveWorkouts.Add(workoutPlan);
             _workoutPlanCacheService.PutWorkoutPlans(username, saveWorkouts);
@@ -144,10 +140,10 @@ namespace WorkoutPlanService.DataAccessPoint.Repositories
             }
         }
 
-        private async Task<bool> UserWorkoutPlanExistsAsync(string workoutName, string username)
+        private async Task<bool> UserWorkoutPlanExistsAsync(string username, Guid externalId)
         {
             var workouts = await GetAllUserWorkutPlansAsync(username);
-            return workouts.Any(x => x.Name == workoutName);
+            return workouts.Any(x => x.ExternalId == externalId);
         }
     }
 }

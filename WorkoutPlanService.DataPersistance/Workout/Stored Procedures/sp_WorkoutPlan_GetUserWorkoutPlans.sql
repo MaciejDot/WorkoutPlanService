@@ -37,9 +37,9 @@ BEGIN
 				FROM 
 					[Workout].[WorkoutPlanVersion] wpv2
 				WHERE
-					wpv2.[Name] = wpv.[Name]
+					wpv2.[ExternalId] = wpv.[ExternalId]
 				ORDER BY
-					CREATED DESC
+					[Created] DESC
 			)
 	ORDER BY
 		u.[Id] ASC , 

@@ -7,6 +7,7 @@ namespace WorkoutPlanService.DataAccessPoint.DTO
 {
     public sealed class WorkoutPlanPersistanceDTO
     {
+        public Guid ExternalId { get; set; }
         [MaxLength(400)]
         public string Name { get; set; }
         [MaxLength(1000)]

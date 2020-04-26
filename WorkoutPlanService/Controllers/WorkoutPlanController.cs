@@ -33,14 +33,16 @@ namespace WorkoutPlanService.Controllers
             return Ok(await _mediator.Send(new GetAllUserWorkoutPlansQuery { Username = User.Identity.Name }, cancellationToken));
         }
 
-        [HttpGet("{username}/{workoutName}")]
+
+        [HttpGet("{username}/{externalId}")]
         [AllowAnonymous]
-        public async Task<ActionResult<WorkoutPlanPersistanceDTO>> Get(string username, string workoutName, CancellationToken cancellationToken)
+        //generate guid
+        public async Task<ActionResult<WorkoutPlanPersistanceDTO>> Get(string username, Guid externalId, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new GetSpecificWorkoutQuery {
                 IssuerName = User?.Identity?.Name,
                 OwnerName = username,
-                WorkoutName = workoutName
+                ExternalId = externalId
             }, cancellationToken));
         }
 
@@ -69,14 +71,14 @@ namespace WorkoutPlanService.Controllers
             return Ok();
         }
 
-        [HttpPatch("{workoutName}")]
+        [HttpPatch("{externalId}")]
         [Authorize]
-        public async Task<IActionResult> Patch(string workoutName, [FromBody]WorkoutPlanPatchModel model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Patch(Guid externalId, [FromBody]WorkoutPlanPatchModel model, CancellationToken cancellationToken)
         {
             await _mediator.Send(new UpdateWorkoutPlanCommand
             {
-                OldName = workoutName,
-                NewName = model.Name,
+                ExternalId = externalId,
+                Name = model.Name,
                 Description = model.Description,
                 Username = User.Identity.Name,
                 IsPublic = model.IsPublic,
@@ -97,14 +99,14 @@ namespace WorkoutPlanService.Controllers
             return Ok();
         }
 
-        [HttpDelete("{workoutName}")]
+        [HttpDelete("{externalId}")]
         [Authorize]
-        public async Task<ActionResult<WorkoutPlanPersistanceDTO>> Delete(string workoutName, CancellationToken cancellationToken)
+        public async Task<ActionResult<WorkoutPlanPersistanceDTO>> Delete(Guid externalId, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new DeleteWorkoutPlanCommand
             {
                 Username = User.Identity.Name,
-                WorkoutName = workoutName
+                ExternalId = externalId
             }, cancellationToken));
         }
     }

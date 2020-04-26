@@ -10,6 +10,6 @@ namespace WorkoutPlanService.Domain.Query
     {
         public string IssuerName { get; set; }
         public string OwnerName { get; set; }
-        public string WorkoutName { get; set; }
+        public Guid ExternalId { get; set; }
     }
 }

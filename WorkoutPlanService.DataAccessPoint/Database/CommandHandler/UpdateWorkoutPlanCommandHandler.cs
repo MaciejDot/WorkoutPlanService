@@ -15,13 +15,9 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
         {
             _commandDispatcher = commandDispatcher;
         }
-        public async Task Handle(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken)
+        public Task Handle(UpdateWorkoutPlanCommand command, CancellationToken cancellationToken)
         {
-            if (command.OldWorkoutName != command.WorkoutPlan.Name)
-            {
-                await _commandDispatcher.Dispatch(new DeleteWorkoutPlanCommand { Username = command.Username, WorkoutName = command.OldWorkoutName }, cancellationToken);
-            }
-            await _commandDispatcher.Dispatch(new AddWorkoutPlanCommand { Username = command.Username, WorkoutPlan = command.WorkoutPlan }, cancellationToken);
+            return _commandDispatcher.Dispatch(new AddWorkoutPlanCommand { Username = command.Username, WorkoutPlan = command.WorkoutPlan }, cancellationToken);
         }
     }
 }

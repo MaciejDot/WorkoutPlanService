@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -12,7 +12,7 @@
     <PackageReference Include="Hangfire" Version="1.7.10" />
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
     <PackageReference Include="RestSharp" Version="106.10.1" />
-    <PackageReference Include="SimpleCQRSDotCore" Version="1.1.2" />
+    <PackageReference Include="SimpleCQRSDotCore" Version="1.2.0" />
   </ItemGroup>
 
 </Project>

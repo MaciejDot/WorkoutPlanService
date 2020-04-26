@@ -17,9 +17,9 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
             _commandDispatcher = commandDispatcher;
         }
 
-        public async Task Run(string username, string workoutName)
+        public async Task Run(string username, Guid externalId)
         {
-            await _commandDispatcher.Dispatch(new DeleteWorkoutPlanCommand { Username = username, WorkoutName = workoutName },default);
+            await _commandDispatcher.Dispatch(new DeleteWorkoutPlanCommand { Username = username, ExternalId = externalId },default);
         }
     }
 }

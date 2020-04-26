@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.Repositories;
 using WorkoutPlanService.Domain.Command;
-using WorkoutPlanService.Domain.DateTimeHelper;
 
 namespace WorkoutPlanService.Domain.CommandHandler
 {
@@ -20,7 +19,7 @@ namespace WorkoutPlanService.Domain.CommandHandler
 
         public async Task<Unit> Handle(DeleteWorkoutPlanCommand command, CancellationToken cancellationToken)
         {
-            await _workoutPlanRepository.DeleteWorkoutPlanAsync(command.Username, command.WorkoutName);
+            await _workoutPlanRepository.DeleteWorkoutPlanAsync(command.Username, command.ExternalId);
             return new Unit();
         }
     }

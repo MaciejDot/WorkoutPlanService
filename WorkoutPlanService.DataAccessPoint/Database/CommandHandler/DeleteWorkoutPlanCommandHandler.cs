@@ -31,7 +31,8 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
             return _sqlConnection.ExecuteAsync("[Workout].[sp_WorkoutPlan_Delete]", new
             {
                 Username = command.Username,
-                WorkoutName = command.WorkoutName,
+                WorkoutName = "--deleted--",
+                ExternalId = command.ExternalId,
                 Created = _dateTimeService.GetCurrentDate(),
                 WorkouPlanVersionId = _guidProvider.GetGuid()
             }, commandType: CommandType.StoredProcedure);

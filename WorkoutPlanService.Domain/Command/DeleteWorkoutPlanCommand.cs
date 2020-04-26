@@ -8,6 +8,6 @@ namespace WorkoutPlanService.Domain.Command
     public sealed class DeleteWorkoutPlanCommand : IRequest<Unit>
     {
         public string Username { get; set; }
-        public string WorkoutName { get; set; }
+        public Guid ExternalId { get; set; }
     }
 }

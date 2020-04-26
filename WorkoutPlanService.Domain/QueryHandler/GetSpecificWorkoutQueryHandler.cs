@@ -26,6 +26,7 @@ namespace WorkoutPlanService.Domain.QueryHandler
             var workoutPlan = workoutPlans
                 .Select(x => new WorkoutPlanDTO
                 {
+                    ExternalId = x.ExternalId,
                     Name = x.Name,
                     Created = x.Created,
                     Description = x.Description,
@@ -43,7 +44,7 @@ namespace WorkoutPlanService.Domain.QueryHandler
                         Series = y.Series
                     })
                 })
-                .First(x => x.Name == query.WorkoutName);
+                .First(x => x.ExternalId == query.ExternalId);
             if (workoutPlan.IsPublic || query.OwnerName == query.IssuerName)
             {
                 return workoutPlan;
