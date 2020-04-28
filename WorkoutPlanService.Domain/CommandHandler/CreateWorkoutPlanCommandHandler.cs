@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using WorkoutPlanService.DataAccessPoint.DTO;
 using WorkoutPlanService.DataAccessPoint.Repositories;
 using WorkoutPlanService.Domain.Command;
+using WorkoutPlanService.Domain.DTO;
 using WorkoutPlanService.Domain.Helpers;
 
 namespace WorkoutPlanService.Domain.CommandHandler
 {
-    public sealed class CreateWorkoutPlanCommandHandler : IRequestHandler<CreateWorkoutPlanCommand, Guid>
+    public sealed class CreateWorkoutPlanCommandHandler : IRequestHandler<CreateWorkoutPlanCommand, WorkoutPlanIdentityDTO>
     {
         private readonly IWorkoutPlanRepository _workoutPlanRepository;
         private readonly IDateTimeHelper _dateTimeHelper;
@@ -27,12 +28,12 @@ namespace WorkoutPlanService.Domain.CommandHandler
 
         }
 
-        public async Task<Guid> Handle(CreateWorkoutPlanCommand command, CancellationToken cancellationToken) 
+        public async Task<WorkoutPlanIdentityDTO> Handle(CreateWorkoutPlanCommand command, CancellationToken cancellationToken) 
         {
-            var externalId = _guidProvider.GetGuid();
+            var identity = new WorkoutPlanIdentityDTO { ExternalId = _guidProvider.GetGuid() };
             await _workoutPlanRepository.AddWorkoutPlanAsync(command.Username, new WorkoutPlanPersistanceDTO
             {
-                ExternalId = externalId,
+                ExternalId = identity.ExternalId,
                 Name = command.Name,
                 Created = _dateTimeHelper.GetCurrentDateTime(),
                 Description = command.Description,
@@ -52,7 +53,7 @@ namespace WorkoutPlanService.Domain.CommandHandler
 
                 })
             });
-            return externalId;
+            return identity;
         }
     }
 }

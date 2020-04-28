@@ -26,6 +26,7 @@ namespace WorkoutPlanService.Domain.QueryHandler
             var workoutPlans = await _workoutPlanRepository.GetAllUserWorkutPlansAsync(query.Username);
             return workoutPlans.Select(x => new WorkoutPlanThumbnailDTO
             {
+                ExternalId = x.ExternalId,
                 Name = x.Name,
                 Created = x.Created,
                 Description = x.Description

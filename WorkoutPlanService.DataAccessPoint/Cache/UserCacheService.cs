@@ -17,22 +17,18 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
 
         public CacheItem<UserPersistanceDTO> GetUser(string username)
         {
-            return _cacheManager.GetCacheItem(GetCacheKey(username));
+            return _cacheManager.GetCacheItem(username);
         }
 
         public void AddUser(UserPersistanceDTO userPersistanceDTO)
         {
-            _cacheManager.AddOrUpdate(GetCacheKey(userPersistanceDTO.Name), userPersistanceDTO, x => x);
+            _cacheManager.AddOrUpdate(userPersistanceDTO.Name, userPersistanceDTO, x => x);
         }
 
         public void PutUser(UserPersistanceDTO userPersistanceDTO)
         {
-            _cacheManager.Put(GetCacheKey(userPersistanceDTO.Name), userPersistanceDTO);
+            _cacheManager.Put(userPersistanceDTO.Name, userPersistanceDTO);
         }
 
-        private string GetCacheKey(string username)
-        {
-            return $"username-{username}";
-        }
     }
 }

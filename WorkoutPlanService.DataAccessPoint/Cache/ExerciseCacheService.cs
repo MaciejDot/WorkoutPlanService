@@ -9,7 +9,7 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
     public sealed class ExerciseCacheService : IExerciseCacheService
     {
         private readonly ICacheManager<IEnumerable<ExercisePersistanceDTO>> _cacheManager;
-
+        private static readonly string _cacheKey = nameof(ExercisePersistanceDTO);
         public ExerciseCacheService(ICacheManager<IEnumerable<ExercisePersistanceDTO>> cacheManager)
         {
             _cacheManager = cacheManager;
@@ -17,17 +17,12 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
 
         public CacheItem<IEnumerable<ExercisePersistanceDTO>> GetAllExercises()
         {
-            return _cacheManager.GetCacheItem(GetCacheKey());
+            return _cacheManager.GetCacheItem(_cacheKey);
         }
 
         public void PutExercises(IEnumerable<ExercisePersistanceDTO> exercisePersistanceDTOs)
         {
-            _cacheManager.Put(GetCacheKey(), exercisePersistanceDTOs);
-        }
-
-        private string GetCacheKey()
-        {
-            return $"exercises";
+            _cacheManager.Put(_cacheKey, exercisePersistanceDTOs);
         }
     }
 }

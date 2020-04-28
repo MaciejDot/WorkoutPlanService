@@ -30,9 +30,17 @@ namespace WorkoutPlanService.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<WorkoutPlanThumbnailDTO>>> Get(CancellationToken cancellationToken)
         {
-            return Ok(await _mediator.Send(new GetAllUserWorkoutPlansQuery { Username = User.Identity.Name }, cancellationToken));
+            return Ok(await _mediator.Send(new GetAllUserWorkoutPlansQuery { Username = User.Identity.Name },
+                cancellationToken));
         }
 
+        [HttpGet("{username}")]
+        [Authorize("admin")]
+        public async Task<ActionResult<IEnumerable<WorkoutPlanThumbnailDTO>>> Get(string username, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetAllUserWorkoutPlansQuery { Username = username }, 
+                cancellationToken));
+        }
 
         [HttpGet("{username}/{externalId}")]
         [AllowAnonymous]
@@ -48,14 +56,16 @@ namespace WorkoutPlanService.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody]WorkoutPlanPostModel model, CancellationToken cancellationToken) 
+        public async Task<ActionResult<WorkoutPlanIdentityDTO>> Post([FromBody]WorkoutPlanPostModel model, CancellationToken cancellationToken) 
         {
-            await _mediator.Send(new CreateWorkoutPlanCommand {
+            return Ok(await _mediator.Send(new CreateWorkoutPlanCommand
+            {
                 Name = model.Name,
                 Description = model.Description,
                 Username = User.Identity.Name,
                 IsPublic = model.IsPublic,
-                Exercises = model.Exercises.Select(x=> new ExercisePlanCommandModel {
+                Exercises = model.Exercises.Select(x => new ExercisePlanCommandModel
+                {
                     Break = x.Break,
                     Description = x.Description,
                     ExerciseId = x.ExerciseId,
@@ -67,8 +77,7 @@ namespace WorkoutPlanService.Controllers
                     Order = x.Order,
                     Series = x.Series
                 })
-            }, cancellationToken);
-            return Ok();
+            }, cancellationToken));
         }
 
         [HttpPatch("{externalId}")]
