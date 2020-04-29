@@ -29,7 +29,7 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
             var workoutPlans = await _queryProcessor.Process(new GetAllWorkoutPlansQuery(), default);
             workoutPlans
                     .AsParallel()
-                    .ForAll(workoutPlans => _workoutPlanCacheService.AddWorkoutPlans(workoutPlans.Key, workoutPlans.Value));
+                    .ForAll(workoutPlans => _workoutPlanCacheService.PutWorkoutPlans(workoutPlans.Key, workoutPlans.Value));
             _backgroundJobClientService.Schedule<IPopulateWorkoutPlans>(x => x.Run(), TimeSpan.FromMinutes(9));
         }
     }

@@ -20,11 +20,6 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
             return _cacheManager.GetCacheItem(username);
         }
 
-        public void AddUser(UserPersistanceDTO userPersistanceDTO)
-        {
-            _cacheManager.AddOrUpdate(userPersistanceDTO.Name, userPersistanceDTO, x => x);
-        }
-
         public void PutUser(UserPersistanceDTO userPersistanceDTO)
         {
             _cacheManager.Put(userPersistanceDTO.Name, userPersistanceDTO);

@@ -30,7 +30,7 @@ namespace WorkoutPlanService.DataAccessPoint.Jobs
             var users = await _queryProcessor.Process( new GetUsersQuery(), default);
             users
                 .AsParallel()
-                .ForAll(user => _userCacheService.AddUser(user));
+                .ForAll(user => _userCacheService.PutUser(user));
             _backgroundJobClientService.Schedule<IPopulateUserCacheJob>(x => x.Run(), TimeSpan.FromMinutes(9));
         }
     }

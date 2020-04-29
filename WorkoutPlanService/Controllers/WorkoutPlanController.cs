@@ -34,17 +34,8 @@ namespace WorkoutPlanService.Controllers
                 cancellationToken));
         }
 
-        [HttpGet("{username}")]
-        [Authorize("admin")]
-        public async Task<ActionResult<IEnumerable<WorkoutPlanThumbnailDTO>>> Get(string username, CancellationToken cancellationToken)
-        {
-            return Ok(await _mediator.Send(new GetAllUserWorkoutPlansQuery { Username = username }, 
-                cancellationToken));
-        }
-
         [HttpGet("{username}/{externalId}")]
         [AllowAnonymous]
-        //generate guid
         public async Task<ActionResult<WorkoutPlanPersistanceDTO>> Get(string username, Guid externalId, CancellationToken cancellationToken)
         {
             return Ok(await _mediator.Send(new GetSpecificWorkoutQuery {

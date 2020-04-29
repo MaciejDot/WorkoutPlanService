@@ -18,12 +18,10 @@ namespace WorkoutPlanService.DataAccessPoint.Database.CommandHandler
     public sealed class AddWorkoutPlanCommandHandler : ICommandHandler<AddWorkoutPlanCommand>
     {
         private readonly SqlConnection _sqlConnection;
-        private readonly IDateTimeService _dateTimeService;
         private readonly IGuidProvider _guidProvider;
 
-        public AddWorkoutPlanCommandHandler(SqlConnection sqlConnection, IDateTimeService dateTimeService, IGuidProvider guidProvider)
+        public AddWorkoutPlanCommandHandler(SqlConnection sqlConnection, IGuidProvider guidProvider)
         {
-            _dateTimeService = dateTimeService;
             _sqlConnection = sqlConnection;
             _guidProvider = guidProvider;
         }

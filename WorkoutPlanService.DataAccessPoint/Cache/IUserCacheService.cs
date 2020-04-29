@@ -7,6 +7,5 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
     {
         CacheItem<UserPersistanceDTO> GetUser(string username);
         void PutUser(UserPersistanceDTO userPersistanceDTO);
-        void AddUser(UserPersistanceDTO userPersistanceDTO);
     }
 }

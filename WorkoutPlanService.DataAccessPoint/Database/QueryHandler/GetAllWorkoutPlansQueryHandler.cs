@@ -36,7 +36,8 @@ namespace WorkoutPlanService.DataAccessPoint.Database.QueryHandler
                         x.Item1.Name,
                         x.Item1.Created,
                         x.Item1.Description,
-                        x.Item1.IsPublic
+                        x.Item1.IsPublic,
+                        x.Item1.ExternalId
                     })
                     .Select(x => new WorkoutPlanPersistanceDTO
                     {
@@ -44,8 +45,8 @@ namespace WorkoutPlanService.DataAccessPoint.Database.QueryHandler
                         Created = x.Key.Created,
                         Description = x.Key.Description,
                         Exercises = x.Where(x => x.Item2 != null).Select(x => x.Item2),
-                        IsPublic = x.Key.IsPublic
-
+                        IsPublic = x.Key.IsPublic,
+                        ExternalId = x.Key.ExternalId
                     });
         }
 

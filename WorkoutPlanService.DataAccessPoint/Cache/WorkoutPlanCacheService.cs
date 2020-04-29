@@ -21,11 +21,6 @@ namespace WorkoutPlanService.DataAccessPoint.Cache
             return _cacheManager.GetCacheItem(username);
         }
 
-        public void AddWorkoutPlans(string username, IEnumerable<WorkoutPlanPersistanceDTO> workoutPlans)
-        {
-            _cacheManager.AddOrUpdate(username, workoutPlans, x => x);
-        }
-
         public void PutWorkoutPlans(string username, IEnumerable<WorkoutPlanPersistanceDTO> workoutPlans)
         {
             _cacheManager.Put(username, workoutPlans);

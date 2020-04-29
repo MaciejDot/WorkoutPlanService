@@ -30,7 +30,9 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
 
         public static IServiceCollection AddWorkoutPlanServiceDataAccessPoint(this IServiceCollection services, string sqlConnectionString)
         {
-            services.AddTransient<IRestClient, RestClient>();
+            services.AddSingleton<IRestClient, RestClient>();
+            services.AddSingleton<IWorkoutScheduleCacheService, WorkoutScheduleCacheService>();
+            services.AddSingleton<IWorkoutSchedulesRepository, WorkoutSchedulesRepository>();
             services.AddTransient<IWorkoutPlanRepository, WorkoutPlanRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IExerciseRepository, ExerciseRepository>();
@@ -46,6 +48,9 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             services.AddTransient<IUpdateExercisesJob, UpdateExercisesJob>();
             services.AddTransient<IPopulateUserCacheJob, PopulateUserCacheJob>();
             services.AddTransient<IPopulateWorkoutPlans, PopulateWorkoutPlans>();
+            services.AddTransient<IAddWorkoutScheduleJob, AddWorkoutScheduleJob>();
+            services.AddTransient<IPopulateWorkoutSchedulesJob, PopulateWorkoutSchedulesJob>();
+            services.AddTransient<IDeleteWorkoutScheduleJob, DeleteWorkoutScheduleJob>();
             services.AddSingleton<IDateTimeService, DateTimeService>();
             services.AddSimpleCQRS(Assembly.GetExecutingAssembly());
             services.AddHangfire(configuration =>

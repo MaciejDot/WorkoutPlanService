@@ -84,5 +84,10 @@
     <Build Include="Workout\Stored Procedures\sp_Exercise_GetAll.sql" />
     <Build Include="Workout\Functions\CheckExerciseIdConstraint.sql" />
     <Build Include="Workout\Stored Procedures\sp_WorokutPlan_Delete.sql" />
+    <Build Include="Workout\Tables\WorkoutScheduleVersion.sql" />
+    <Build Include="Workout\Functions\CheckWorkoutExternalIdConstraint.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutSchedules_GetAll.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutSchedules_Get.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutSchedule_Add.sql" />
   </ItemGroup>
 </Project>

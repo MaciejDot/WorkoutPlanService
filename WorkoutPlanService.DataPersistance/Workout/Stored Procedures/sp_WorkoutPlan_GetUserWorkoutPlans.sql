@@ -4,6 +4,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	SELECT
+		wpv.[ExternalId],
 		wpv.[Name],
 		wpv.[Description],
 		wpv.[Created],

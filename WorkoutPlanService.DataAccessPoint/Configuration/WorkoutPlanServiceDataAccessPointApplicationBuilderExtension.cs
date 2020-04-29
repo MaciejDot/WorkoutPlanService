@@ -15,6 +15,7 @@ namespace WorkoutPlanService.DataAccessPoint.Configuration
             backgroundJobClient.Enqueue<IUpdateExercisesJob>(x => x.Run());
             backgroundJobClient.Enqueue<IPopulateUserCacheJob>(x => x.Run());
             backgroundJobClient.Enqueue<IPopulateWorkoutPlans>(x => x.Run());
+            backgroundJobClient.Enqueue<IPopulateWorkoutSchedulesJob>(x => x.Run());
             return app;
         } 
         

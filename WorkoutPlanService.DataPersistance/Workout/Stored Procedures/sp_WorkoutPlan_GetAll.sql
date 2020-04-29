@@ -5,6 +5,7 @@ BEGIN
 	SELECT
 		u.[Name] [Username],
 		wpv.[Id],
+		wpv.[ExternalId],
 		wpv.[Name],
 		wpv.[Description],
 		wpv.[Created],
